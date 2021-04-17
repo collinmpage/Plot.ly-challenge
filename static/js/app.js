@@ -66,5 +66,132 @@ function plotCharts(id) {
           listItem.text(`${key}: ${value}`);
       })
       }));
-}
+
+      //getting data for plots
+      var singleSample = data.samples.filter(sample => sample.id == id)[0];
+      //empty arrays for sampleData
+      var otuIds = [];
+      var otuLabels = [];
+      var sampleValues = [];
+
+    // iterate through all the key/values for plotting
+    Object.entries(singleSample).forEach(([key, value]) => {
+        switch (key) {
+            case "otu_ids":
+                otuIds.push(value);
+                break;
+            case "sample_values":
+                sampleValues.push(value);
+                break;
+            case "otu_labels":
+                otuLabels.push(value);
+                break;
+            default:
+                break;
+        } 
+    });
+    // get top ten otu values and reverse arrays
+    var topOtuIds = otuIds[0].slice(0, 10).reverse();
+    var topOtuLabels = otuLabels[0].slice(0, 10).reverse();
+    var topSampleValues = sampleValues[0].slice(0, 10).reverse();
+    // use the map function to store the IDs with "OTU" for labelling y-axis
+    var topOtuIdsFormatted = topOtuIds.map(otuID => "OTU " + otuID);
+
+        // Bar Chart
+        // create a trace
+        var traceBar = {
+            x: topSampleValues,
+            y: topOtuIdsFormatted,
+            text: topOtuLabels,
+            type: 'bar',
+            orientation: 'h',
+            marker: {
+                color: 'rgb(30,140,190)'
+            }
+        };
+
+        // create the data array for plotting
+        var dataBar = [traceBar];
+
+        // define the plot layout
+        var layoutBar = {
+            height: 500,
+            width: 600,
+            font: {
+                family: 'Quicksand'
+            },
+            hoverlabel: {
+                font: {
+                    family: 'Quicksand'
+                }
+            },
+            title: {
+                text: `<b>Top OTUs for Test Subject ${id}</b>`,
+                font: {
+                    size: 18,
+                    color: 'rgb(32,95,170)'
+                }
+            },
+            xaxis: {
+                title: "<b>Sample values<b>",
+                color: 'rgb(32,95,170)'
+            },
+            yaxis: {
+                tickfont: { size: 14 }
+            }
+        }
+
+        //plot the barchart
+        Plotly.newPlot('bar', dataBar, layoutBar);
+
+
+        // ----------------------------------
+        // PLOT BUBBLE CHART
+        // ----------------------------------
+
+        // create trace
+        var traceBub = {
+            x: otuIds[0],
+            y: sampleValues[0],
+            text: otuLabels[0],
+            mode: 'markers',
+            marker: {
+                size: sampleValues[0],
+                color: otuIds[0],
+                colorscale: 'YlGnBu'
+            }
+        };
+
+        // create the data array for the plot
+        var dataBub = [traceBub];
+
+        // define the plot layout
+        var layoutBub = {
+            font: {
+                family: 'Quicksand'
+            },
+            hoverlabel: {
+                font: {
+                    family: 'Quicksand'
+                }
+            },
+            xaxis: {
+                title: "<b>OTU Id</b>",
+                color: 'rgb(34,94,168)'
+            },
+            yaxis: {
+                title: "<b>Sample Values</b>",
+                color: 'rgb(34,94,168)'
+            },
+            showlegend: false,
+        };
+
+        // plot the bubble chat to the appropriate div
+        Plotly.newPlot('bubble', dataBub, layoutBub);
+
+    };
+
+//resetData();
+//plotCharts(id)
+
 init();
