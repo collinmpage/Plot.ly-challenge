@@ -65,7 +65,7 @@ function plotCharts(id) {
           // putting info into the demographic box
           listItem.text(`${key}: ${value}`);
       })
-      }));
+      
 
       //getting data for plots
       var singleSample = data.samples.filter(sample => sample.id == id)[0];
@@ -145,12 +145,11 @@ function plotCharts(id) {
         Plotly.newPlot('bar', dataBar, layoutBar);
 
 
-        // ----------------------------------
-        // PLOT BUBBLE CHART
-        // ----------------------------------
-
+      
+        // ------ bubble Chart -------
+    
         // create trace
-        var traceBub = {
+        var traceBubble = {
             x: otuIds[0],
             y: sampleValues[0],
             text: otuLabels[0],
@@ -161,12 +160,10 @@ function plotCharts(id) {
                 colorscale: 'YlGnBu'
             }
         };
-
         // create the data array for the plot
-        var dataBub = [traceBub];
-
+        var dataBubble = [traceBubble];
         // define the plot layout
-        var layoutBub = {
+        var layoutBubble = {
             font: {
                 family: 'Quicksand'
             },
@@ -185,13 +182,12 @@ function plotCharts(id) {
             },
             showlegend: false,
         };
+        // plot the bubble chat
+        Plotly.newPlot('bubble', dataBubble, layoutBubble);
+    }));
+}
 
-        // plot the bubble chat to the appropriate div
-        Plotly.newPlot('bubble', dataBub, layoutBub);
-
-    };
-
-//resetData();
-//plotCharts(id)
+// resetData();
+// plotCharts(id)
 
 init();
