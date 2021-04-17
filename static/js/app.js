@@ -5,10 +5,6 @@ d3.json('/../../samples.json').then((data) => {
     console.log(data);
     });
 
-
-
-
-
 //------ SETTING VARIABLES -------//
 var idSelect = d3.select("#selDataset");
 var demoTable = d3.select("#sample-metadata");
@@ -16,12 +12,8 @@ var demoTable = d3.select("#sample-metadata");
 var barChart = d3.select("#bar");
 //bubbleChart
 var bubbleChart = d3.select("bubble");
-// select the gauge chart div
-//var gaugeChart = d3.select("gauge");
-
 
 // populating the drop down menu
-
 function init() {
 
     // reset any previous data
@@ -65,7 +57,6 @@ function plotCharts(id) {
           // putting info into the demographic box
           listItem.text(`${key}: ${value}`);
       })
-      
 
       //getting data for plots
       var singleSample = data.samples.filter(sample => sample.id == id)[0];
@@ -144,8 +135,6 @@ function plotCharts(id) {
         //plot the barchart
         Plotly.newPlot('bar', dataBar, layoutBar);
 
-
-      
         // ------ bubble Chart -------
     
         // create trace
