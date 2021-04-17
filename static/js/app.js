@@ -44,66 +44,27 @@ function resetData() {
     barChart.html("");
     bubbleChart.html("");
     //gaugeChart.html("");
-}; // close resetData()
+}; 
 
+// plotting the Charts
+function plotCharts(id) {
+  
+  d3.json("../../samples.json").then((data => {
+      // demographics table
+      // filter the metadata for the ID chosen
+      var singleMeta = data.metadata.filter(testSubject => testSubject.id == id)[0];
+      // Iterate through each key and value in the metadata
 
-
+      Object.entries(singleMeta).forEach(([key, value]) => {
+          var newList = demoTable.append("ul");
+          newList.attr("class", "list-group list-group-flush");
+          // append a li item to the unordered list tag
+          var listItem = newList.append("li");
+          // styling
+          listItem.attr("class", "list-group-item p-1 demo-text bg-transparent");
+          // putting info into the demographic box
+          listItem.text(`${key}: ${value}`);
+      })
+      }));
+}
 init();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// function buildPlot() {
-//     d3.json(url).then(function(odata) {
-        
-//       var sampleValues = odata.samples.sample_values;
-//       var otuIDS = odata.samples.otu_ids;
-//       var otuLabels = odata.samples.otu_labels;
-
-//       d3.selectAll("#selDataset").on("change", updatePlotly);
-
-// // This function is called when a dropdown menu item is selected
-// function updatePlotly() {
-//   // Use D3 to select the dropdown menu
-//   var dropdownMenu = d3.select("#selDataset");
-//   // Assign the value of the dropdown menu option to a variable
-//   var dataset = dropdownMenu.property("value");
-
-//   // Initialize x and y arrays
-//   var x = [];
-//   var y = [];
-
-//   if (dataset === 'dataset1') {
-//     x = sampleValues;
-//     y = otuIDS;
-//   }
-
-//   else if (dataset === 'dataset2') {
-//     x = sampleValues;
-//     y = otuIDS;
-//   }
-
-//   // Note the extra brackets around 'x' and 'y'
-//   Plotly.restyle("plot", "x", [x]);
-//   Plotly.restyle("plot", "y", [y]);
-// }
-
-// init();
